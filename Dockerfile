@@ -57,7 +57,7 @@ RUN pip3 install matplotlib
 
 # copy the app to the image
 RUN mkdir /root/app/
-COPY app /root/app/
+# COPY app /root/app/
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
@@ -71,7 +71,7 @@ COPY app/Rprofile.site /usr/lib/R/etc/
 EXPOSE 3838
 EXPOSE 5432
 
-CMD ["R", "-e", "shiny::runApp('/root/app/app.R')"]
+# CMD ["R", "-e", "shiny::runApp('/root/app/app.R')"]
 
 
 # docker build -t bouldermaettel/duplicate-finder .
