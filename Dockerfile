@@ -57,13 +57,13 @@ RUN pip3 install matplotlib
 
 # copy the app to the image
 RUN mkdir /root/app/
-# COPY app /root/app/
+# COPY app /root/app/  this will be sourced
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
 COPY app/Rprofile.site /usr/lib/R/etc/
-#RUN mkdir /root/data/
+# RUN mkdir /root/data/
 #COPY data /root/data/
 #RUN mkdir /root/www/
 #COPY www /root/www/
@@ -71,17 +71,9 @@ COPY app/Rprofile.site /usr/lib/R/etc/
 EXPOSE 3838
 EXPOSE 5432
 
-# CMD ["R", "-e", "shiny::runApp('/root/app/app.R')"]
+CMD ["R", "-e", "shiny::runApp('/root/app/app.R')"]
 
 
-# docker build -t bouldermaettel/duplicate-finder .
-# docker run -it -p 3838:3838 duplicate-finder
-# docker kill $(docker ps -q)
-
-# docker run -d -v /var/run/docker.sock:/var/run/docker.sock --net sp-net -p 8080:8080 sp-built
-# bouldermaettel@bouldermaettelsZBOOK:~/PycharmProjects/A848/Docker_container$ R -e "shiny::runApp('app')"
-
-# docker tag duplicate-finder:latest bouldermaettel/dupliate-finder:latest
-# docker login -u bouldermaettel
-# docker push bouldermaettel/dupliate-finder:latest
-# bouldermaettel@bouldermaettelsZBOOK:~/PycharmProjects/A848_standalone/ R -e "shiny::runApp('app.R')"
+# docker build -t dev-container:latest .
+# alias start-a848-dev=' docker run --name dev-container-R-python -it --rm -p 3838:3838 -v ${PWD}/app:/root/app --env-file ${PWD}/.env --network postgres dev-container:latest'
+# docker network connect sp-net dev-container-R-python
